@@ -1,11 +1,119 @@
 <html>
   <head>
+    <title>Games</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <style>
-    </style>
+    body {
+      background-color: black;
+        text-align: center;
+  }
+  svg {
+    border: solid blue 1px;
+    padding:10px;
+    margin: 10px;
+    fill: purple;
+
+  }
+  .rect {
+    fill: black;
+  }
+  .axis path,
+  .axis line {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+  }
+  .green_x_axis path,line {
+      fill: none;
+      stroke: green;
+      shape-rendering: crispEdges;
+  }
+  .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+  }
+  .text{
+    font-size: 10;
+  }
+  .answers{
+    color: red;
+  }
+  </style>
+
   </head>
   <body>
-    <div>
-      hello
+    <div id="svg">
     </div>
+
+    <script>
+      var color = [
+      "#FFFAC8", "#E23C08","#bc065b","#A3AA44", "#5DFF84",
+      "#61c9fe","#FFE985", "#FFA099","#bc1ea9","#ace468",
+      "#979C9D","#708EEE","#E5AF2F","#df1731","#A22BD4",
+      "#770909","#91F3FF","#006cd4","#FF9816","#FF9DC1",
+      "#5E168D","#005F13","#759ABA","#2941d3","#03897D",
+      "#d21c70","#6b3ace", "#006758","#BFE4FE"];
+
+
+      var match = d3.scaleOrdinal().domain(["Electronic Arts", "Nintendo",
+      "Konami Digital Entertainment", "Take-Two Interactive", "Activision",
+      "Sega", "Sony Computer Entertainment", "Ubisoft", "Namco Bandai Games",
+      "Acclaim Entertainment", "THQ", "Capcom", "Vivendi Games", "Universal Interactive",
+      "Codemasters", "Microsoft Game Studios", "Square Enix", "Bethesda Softworks",
+      "SquareSoft", "Enix Corporation", "Atari", "Warner Bros. Interactive Entertainment",
+      "Hudson Soft", "Midway Games", "Disney Interactive Studios", "MTV Games", "LucasArts",
+      "505 Games", "Banpresto"]).range(color);
+
+      var parseRow = function(row) {
+          row.Global_Sales=Number(row.Global_Sales) //parse the numbers out
+          return row;
+        }
+
+
+        var toprightpadding = 0;
+                var padding = 40;
+                var width = 1000;
+                var height = 1000;
+
+        var svg = d3.select('#svg').append('svg')
+                .attr('width', width)
+                .attr('height', height)
+
+      d3.csv("vgsales.csv",parseRow, function (data) {
+        vgaData=data;
+
+        var vgaDataByGenre = d3.nest() //nest genre and publisher because we use them later
+          .key(function(d) { return d.Genre })
+          .key(function(d){return d.Publisher})
+          .rollup(function(v) { return d3.sum(v, function(d) { return d.Global_Sales; }); }) //disregard euro and japanese, us sales
+          .entries(vgaData);
+
+        for (var index in vgaDataByGenre)  { //loop through the keys in vgaData by Genre
+          if (vgaDataByGenre.hasOwnProperty(index)){
+            vgaDataByGenre[index]["values"].sort(function(x,y){ //go to the level of the publishers, and look specifically at the values
+              return d3.descending(x.values,y.values) //sort the numbers descending, will be from highest to lowest
+              });
+
+            vgaDataByGenre[index]["values"]=vgaDataByGenre[index]["values"].slice(0,10) //create top ten array of publishers separated by genre
+          };
+        }
+
+        genreTotals=[] //this is where you get the total sales for each genre
+        var tempVar=0;
+        for (var index in vgaDataByGenre){
+        tempVar=0;
+          if (vgaDataByGenre.hasOwnProperty(index)){
+            for (var index2 in vgaDataByGenre[index]["values"]){
+              if (vgaDataByGenre[index]["values"].hasOwnProperty(index2)){
+                tempVar+=vgaDataByGenre[index]["values"][index2]["values"]
+                genreTotals[vgaDataByGenre[index]["key"]]=tempVar
+              }
+            }
+           }
+          };
+        });
+
+    </script>
+
   </body>
 </html>
