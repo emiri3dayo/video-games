@@ -55,7 +55,7 @@
       "#d21c70","#6b3ace", "#006758","#BFE4FE"];
 
 
-      var match = d3.scaleOrdinal().domain(["Electronic Arts", "Nintendo",
+      var colorScale = d3.scaleOrdinal().domain(["Electronic Arts", "Nintendo",
       "Konami Digital Entertainment", "Take-Two Interactive", "Activision",
       "Sega", "Sony Computer Entertainment", "Ubisoft", "Namco Bandai Games",
       "Acclaim Entertainment", "THQ", "Capcom", "Vivendi Games", "Universal Interactive",
@@ -71,7 +71,7 @@
 
 
         var toprightpadding = 0;
-                var padding = 40;
+                var padding = 100;
                 var width = 1000;
                 var height = 1000;
 
@@ -80,38 +80,93 @@
                 .attr('height', height)
 
       d3.csv("vgsales.csv",parseRow, function (data) {
-        vgaData=data;
+        vgData=data;
 
-        var vgaDataByGenre = d3.nest() //nest genre and publisher because we use them later
-          .key(function(d) { return d.Genre })
-          .key(function(d){return d.Publisher})
-          .rollup(function(v) { return d3.sum(v, function(d) { return d.Global_Sales; }); }) //disregard euro and japanese, us sales
-          .entries(vgaData);
+            var vgDataByGenre = d3.nest() //nest genre and publisher because we use them later
+              .key(function(d) { return d.Genre })
+              .key(function(d){return d.Publisher})
+              .rollup(function(v) { return d3.sum(v, function(d) { return d.Global_Sales; }); }) //disregard euro and japanese, us sales
+              .entries(vgData);
 
-        for (var index in vgaDataByGenre)  { //loop through the keys in vgaData by Genre
-          if (vgaDataByGenre.hasOwnProperty(index)){
-            vgaDataByGenre[index]["values"].sort(function(x,y){ //go to the level of the publishers, and look specifically at the values
-              return d3.descending(x.values,y.values) //sort the numbers descending, will be from highest to lowest
-              });
+            for (var index in vgDataByGenre)  { //loop through the keys in vgData by Genre
+              if (vgDataByGenre.hasOwnProperty(index)){
+                vgDataByGenre[index]["values"].sort(function(x,y){ //go to the level of the publishers, and look specifically at the values
 
-            vgaDataByGenre[index]["values"]=vgaDataByGenre[index]["values"].slice(0,10) //create top ten array of publishers separated by genre
-          };
-        }
+                  return d3.descending(x.value,y.value) //sort the numbers descending, will be from highest to lowest
+                  });
 
-        genreTotals=[] //this is where you get the total sales for each genre
-        var tempVar=0;
-        for (var index in vgaDataByGenre){
-        tempVar=0;
-          if (vgaDataByGenre.hasOwnProperty(index)){
-            for (var index2 in vgaDataByGenre[index]["values"]){
-              if (vgaDataByGenre[index]["values"].hasOwnProperty(index2)){
-                tempVar+=vgaDataByGenre[index]["values"][index2]["values"]
-                genreTotals[vgaDataByGenre[index]["key"]]=tempVar
-              }
+                vgDataByGenre[index]["values"]=vgDataByGenre[index]["values"].slice(0,10) //create top ten array of publishers separated by genre
+              };
             }
-           }
-          };
+
+            genreTotals=[] //this is where you get the total sales for each genre, we used it for pacmans dots
+            var tempVar=0;
+            for (var index in vgDataByGenre){
+            tempVar=0;
+              if (vgDataByGenre.hasOwnProperty(index)){
+
+                for (var index2 in vgDataByGenre[index]["values"]){
+                  if (vgDataByGenre[index]["values"].hasOwnProperty(index2)){
+
+                    tempVar+=vgDataByGenre[index]["values"][index2]["value"]
+
+                    genreTotals[vgDataByGenre[index]["key"]]=tempVar
+                  }
+                }
+               }
+              };
+
+
+        function filterGenre(genre, vgDataByGenre){
+          for (var index in vgDataByGenre){
+            if (vgDataByGenre.hasOwnProperty(index)){
+              if (vgDataByGenre[index]["key"]==genre){
+                  return vgDataByGenre[index]["values"]
+              }
+
+        }
+      }
+    }//filterGenre
+
+    generateAction()
+
+    function generateAction(){
+      var action=filterGenre("Action", vgDataByGenre)
+      console.log(action)
+
+      var heightMax=d3.max(d3.values(action))["value"]
+      var publishers=action.map(function(d){return d.key})
+      var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+      var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+      action.forEach(function(publisher){
+          svg.append("rect")
+            .attr("x", publisherScale(publisher.key))
+            .attr("y", heightScale(publisher.value))
+            .attr("width", "50")
+            .attr("height", height-heightScale(publisher.value))
+            .attr("transform", "translate(0,0)")
+            .style("fill", "blue")
+          // svg.append("text")
+          //   .attr("x", hotelScale(index))
+          //   .attr("y", heightScale(hotelTypeArray[index]))
+          //   .attr("transform", "translate(110,45)")
+          //   .text(sports[index])
+          //   .style("fill",colorScale(index))
+          //   .style("align", "center")
+        })
+
+      }//function genresports
+
+
+
+
+
+
         });
+
+
 
     </script>
 
