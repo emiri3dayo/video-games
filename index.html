@@ -104,25 +104,240 @@
           };
         };//filterGenre
 
+        generateAction()
+        generateAdventure()
+        generateFighting()
+        generatePlatform()
+        generatePuzzle()
+        generateRacing()
+        generateRolePlaying()
+        generateShooter()
+
+
+
         function generateAction(){
           var action=filterGenre("Action", vgDataByGenre)
+          console.log(action)
+
           var heightMax=d3.max(d3.values(action))["value"]
           var publishers=action.map(function(d){return d.key})
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
           var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
 
-          action.forEach( function (publisher) {
-            svg.append("rect")
-              .attr("x", publisherScale(publisher.key))
-              .attr("y", heightScale(publisher.value))
-              .attr("width", "50")
-              .attr("height", height-heightScale(publisher.value))
-              .attr("transform", "translate(0,0)")
-              .style("fill", "blue");
-            });
-        }//function genresports
 
-        generateAction();
+          action.forEach(function(publisher){
+              svg.append("rect")
+                .attr("x", publisherScale(publisher.key))
+                .attr("y", heightScale(publisher.value))
+                .attr("width", "50")
+                .attr("height", height-heightScale(publisher.value))
+                .attr("transform", "translate(0,0)")
+                .style("fill", "blue")
+              // svg.append("text")
+              //   .attr("x", hotelScale(index))
+              //   .attr("y", heightScale(hotelTypeArray[index]))
+              //   .attr("transform", "translate(110,45)")
+              //   .text(sports[index])
+              //   .style("fill",colorScale(index))
+              //   .style("align", "center")
+            })
+
+          }//function genreaction
+
+
+
+
+          function generateAdventure(){
+            var adventure=filterGenre("Adventure", vgDataByGenre)
+            var heightMax=d3.max(d3.values(adventure))["value"]
+            var publishers=adventure.map(function(d){return d.key})
+            var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+            var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+            adventure.forEach(function(publisher){
+                svg.append("rect")
+                  .attr("x", publisherScale(publisher.key))
+                  .attr("y", heightScale(publisher.value))
+                  .attr("width", "50")
+                  .attr("height", height-heightScale(publisher.value))
+                  .attr("transform", "translate(0,0)")
+                  .style("fill", "blue")
+                // svg.append("text")
+                //   .attr("x", hotelScale(index))
+                //   .attr("y", heightScale(hotelTypeArray[index]))
+                //   .attr("transform", "translate(110,45)")
+                //   .text(sports[index])
+                //   .style("fill",colorScale(index))
+                //   .style("align", "center")
+              })
+
+            }//function genreadventure
+
+            function generateFighting(){
+              var fighting=filterGenre("Fighting", vgDataByGenre)
+              var heightMax=d3.max(d3.values(fighting))["value"]
+              var publishers=fighting.map(function(d){return d.key})
+              var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+              var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+              fighting.forEach(function(publisher){
+                  svg.append("rect")
+                    .attr("x", publisherScale(publisher.key))
+                    .attr("y", heightScale(publisher.value))
+                    .attr("width", "50")
+                    .attr("height", height-heightScale(publisher.value))
+                    .attr("transform", "translate(0,0)")
+                    .style("fill", "blue")
+                  // svg.append("text")
+                  //   .attr("x", hotelScale(index))
+                  //   .attr("y", heightScale(hotelTypeArray[index]))
+                  //   .attr("transform", "translate(110,45)")
+                  //   .text(sports[index])
+                  //   .style("fill",colorScale(index))
+                  //   .style("align", "center")
+                })
+
+              }//function genreadventure
+
+
+            function generatePlatform(){
+              var platform=filterGenre("Platform", vgDataByGenre)
+              var heightMax=d3.max(d3.values(platform))["value"]
+              var publishers=platform.map(function(d){return d.key})
+              var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+              var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+              platform.forEach(function(publisher){
+                  svg.append("rect")
+                    .attr("x", publisherScale(publisher.key))
+                    .attr("y", heightScale(publisher.value))
+                    .attr("width", "50")
+                    .attr("height", height-heightScale(publisher.value))
+                    .attr("transform", "translate(0,0)")
+                    .style("fill", "blue")
+                  // svg.append("text")
+                  //   .attr("x", hotelScale(index))
+                  //   .attr("y", heightScale(hotelTypeArray[index]))
+                  //   .attr("transform", "translate(110,45)")
+                  //   .text(sports[index])
+                  //   .style("fill",colorScale(index))
+                  //   .style("align", "center")
+                })
+
+              }//function genreplatform
+
+              function generatePuzzle(){
+                var puzzle=filterGenre("Platform", vgDataByGenre)
+                var heightMax=d3.max(d3.values(puzzle))["value"]
+                var publishers=puzzle.map(function(d){return d.key})
+                var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+                var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+                puzzle.forEach(function(publisher){
+                    svg.append("rect")
+                      .attr("x", publisherScale(publisher.key))
+                      .attr("y", heightScale(publisher.value))
+                      .attr("width", "50")
+                      .attr("height", height-heightScale(publisher.value))
+                      .attr("transform", "translate(0,0)")
+                      .style("fill", "blue")
+                    // svg.append("text")
+                    //   .attr("x", hotelScale(index))
+                    //   .attr("y", heightScale(hotelTypeArray[index]))
+                    //   .attr("transform", "translate(110,45)")
+                    //   .text(sports[index])
+                    //   .style("fill",colorScale(index))
+                    //   .style("align", "center")
+                  })
+
+            }//function puzzle
+
+            function generateRacing(){
+              var racing=filterGenre("Racing", vgDataByGenre)
+              var heightMax=d3.max(d3.values(racing))["value"]
+              var publishers=racing.map(function(d){return d.key})
+              var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+              var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+              racing.forEach(function(publisher){
+                  svg.append("rect")
+                    .attr("x", publisherScale(publisher.key))
+                    .attr("y", heightScale(publisher.value))
+                    .attr("width", "50")
+                    .attr("height", height-heightScale(publisher.value))
+                    .attr("transform", "translate(0,0)")
+                    .style("fill", "blue")
+                  // svg.append("text")
+                  //   .attr("x", hotelScale(index))
+                  //   .attr("y", heightScale(hotelTypeArray[index]))
+                  //   .attr("transform", "translate(110,45)")
+                  //   .text(sports[index])
+                  //   .style("fill",colorScale(index))
+                  //   .style("align", "center")
+                })
+
+              }//function racing
+
+
+              function generateRolePlaying(){
+                var roleplaying=filterGenre("Role-Playing", vgDataByGenre)
+                var heightMax=d3.max(d3.values(roleplaying))["value"]
+                var publishers=roleplaying.map(function(d){return d.key})
+                var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+                var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+                roleplaying.forEach(function(publisher){
+                    svg.append("rect")
+                      .attr("x", publisherScale(publisher.key))
+                      .attr("y", heightScale(publisher.value))
+                      .attr("width", "50")
+                      .attr("height", height-heightScale(publisher.value))
+                      .attr("transform", "translate(0,0)")
+                      .style("fill", "blue")
+                    // svg.append("text")
+                    //   .attr("x", hotelScale(index))
+                    //   .attr("y", heightScale(hotelTypeArray[index]))
+                    //   .attr("transform", "translate(110,45)")
+                    //   .text(sports[index])
+                    //   .style("fill",colorScale(index))
+                    //   .style("align", "center")
+                  })
+
+                }//function roleplaying
+
+
+            function generateShooter(){
+              var shooter=filterGenre("Shooter", vgDataByGenre)
+              var heightMax=d3.max(d3.values(shooter))["value"]
+              var publishers=shooter.map(function(d){return d.key})
+              var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+              var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+
+
+              shooter.forEach(function(publisher){
+                  svg.append("rect")
+                    .attr("x", publisherScale(publisher.key))
+                    .attr("y", heightScale(publisher.value))
+                    .attr("width", "50")
+                    .attr("height", height-heightScale(publisher.value))
+                    .attr("transform", "translate(0,0)")
+                    .style("fill", "blue")
+                  // svg.append("text")
+                  //   .attr("x", hotelScale(index))
+                  //   .attr("y", heightScale(hotelTypeArray[index]))
+                  //   .attr("transform", "translate(110,45)")
+                  //   .text(sports[index])
+                  //   .style("fill",colorScale(index))
+                  //   .style("align", "center")
+                })
+
+              }//function shooter
 
       }); // end of d3.csv
     </script>

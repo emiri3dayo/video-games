@@ -206,7 +206,7 @@
           var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
 
 
-          adventure.forEach(function(publisher){
+          fighting.forEach(function(publisher){
               svg.append("rect")
                 .attr("x", publisherScale(publisher.key))
                 .attr("y", heightScale(publisher.value))
