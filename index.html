@@ -55,8 +55,8 @@
 
       var toprightpadding = 0;
       var padding = 100;
-      var width = 1000;
-      var height = 1000;
+      var width = 800;
+      var height = 500;
 
       var svg = d3.select('#graph').append('svg')
         .attr('width', width)
@@ -202,11 +202,117 @@
             svg.append("rect")
               .attr("x", publisherScale(publisher.key))
               .attr("y", heightScale(publisher.value))
-              .attr("width", "50")
+              .attr("width", "40")
               .attr("height", height-heightScale(publisher.value))
-              .attr("transform", "translate(0,0)")
-              .style("fill", "blue");
-          });
+              .style("fill", "#008400");
+            svg.append("rect")
+              .attr("x", publisherScale(publisher.key)-5)
+              .attr("y", heightScale(publisher.value))
+              .attr("width", "50")
+              .attr("height", function(){
+                if (heightScale(publisher.value)+20<500){
+                  return 20;
+                }
+                else {
+                  return Number(500-heightScale(publisher.value));
+                };
+              })
+              .style("fill", "#008400")
+              .style("stroke", "black")
+              .style("stroke-width", "2px");
+            svg.append("rect") //bottom dark color
+              .attr("x", publisherScale(publisher.key)+5)
+              .attr("y", heightScale(publisher.value)+21)
+              .attr("id","dark")
+              .attr("width", "2")
+              .attr("height", function(){
+                if (heightScale(publisher.value)+20<500){
+                  return height-heightScale(publisher.value)-21;
+                }
+                else {
+                  return 0;
+                };
+              })
+              .style("fill", "#006A00");
+            svg.append("rect") //top dark color
+              .attr("x", publisherScale(publisher.key)+3)
+              .attr("y", heightScale(publisher.value)+1)
+              .attr("id","dark")
+              .attr("width", "2")
+              .attr("height", function(){
+                if (heightScale(publisher.value)+20<500){
+                  return 18;
+                }
+                else {
+                  return Number(500-heightScale(publisher.value)-2);
+                };
+              })
+              .style("fill", "#006A00");
+            svg.append("rect") //bottom dark color
+              .attr("x", publisherScale(publisher.key)+22)
+              .attr("y", heightScale(publisher.value)+21)
+              .attr("id","dark")
+              .attr("width", "15")
+              .attr("height", function(){
+                if (heightScale(publisher.value)+20<500){
+                  return height-heightScale(publisher.value)-21;
+                }
+                else {
+                return 0;
+                };
+              })
+              .style("fill", "#006A00");
+            svg.append("rect") //top dark color, fat
+              .attr("x", publisherScale(publisher.key)+22)
+              .attr("y", heightScale(publisher.value)+1)
+              .attr("id","dark")
+              .attr("width", "15")
+              .attr("height", function(){
+                if (heightScale(publisher.value)+20<500){
+                  return 18;
+                }
+                else {
+                  return Number(500-heightScale(publisher.value)-2);
+                };
+              })
+              .style("fill", "#006A00");
+            svg.append("rect") //bottom dark color
+              .attr("x", publisherScale(publisher.key)+17)
+              .attr("y", heightScale(publisher.value)+21)
+              .attr("id","dark")
+              .attr("width", "2")
+              .attr("height", function(){
+                if (heightScale(publisher.value)+20<500){
+                  return height-heightScale(publisher.value)-21;
+                }
+                else {
+                  return 0;
+                };
+              })
+              .style("fill", "#006A00");
+            svg.append("rect") //top dark color
+              .attr("x", publisherScale(publisher.key)+15)
+              .attr("y", heightScale(publisher.value)+1)
+              .attr("id","dark")
+              .attr("width", "2")
+              .attr("height", function(){
+                if (heightScale(publisher.value)+20<500){
+                  return 18;
+                }
+                else {
+                  return Number(500-heightScale(publisher.value)-2);
+                };
+              })
+              .style("fill", "#006A00");
+            svg.append("text")
+              .attr("x", publisherScale(publisher.key)-10)
+              .attr("y", 500)
+              .attr("transform", "rotate(270 "+String(publisherScale(publisher.key)-10)+" 500)")
+              .text(publisher.key+":"+Math.ceil(publisher.value))
+              .style("text-align", "center")
+              .style("font-size", "15")
+              .style("fill","#006A00")
+          })//for each
         };  //function genreplatform
 
         function generatePuzzle(){
