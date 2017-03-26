@@ -106,16 +106,31 @@
           };
         };//filterGenre
 
-        dropDown.onchange = function() {
+        loadGraph(dropDown.value)  // initialize graph with data
+
+        dropDown.onchange = function() {  // selector on change event listener
           d3.selectAll("svg > *").remove();
           loadGraph(dropDown.value)
         };
+
         function loadGraph(genre){
           if (genre=="Action"){
             generateAction()
           }
           else if (genre=="Adventure"){
             generateAdventure()
+          }
+          else if (genre=="Sports"){
+            generateSports()
+          }
+          else if (genre=="Misc"){
+            generateMisc()
+          }
+          else if (genre=="Simulation"){
+            generateSimulation()
+          }
+          else if (genre=="Strategy"){
+            generateStrategy()
           }
           else if (genre=="Fighting"){
             generateFighting()
@@ -139,10 +154,15 @@
 
         function generateAction(){
           var action=filterGenre("Action", vgDataByGenre);
-          var heightMax=d3.max(d3.values(action))["value"];
+          var heightMax=d3.max(d3.values(action).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(action).map(function(d){
+            return d.value;
+          }));
           var publishers=action.map(function(d){return d.key});
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           action.forEach(function(publisher){
             svg.append("rect")
@@ -152,14 +172,107 @@
               .attr("height", height-heightScale(publisher.value))
               .style("fill", "blue");
           });
-        }; //function genreaction
+        }; //function generateAction
+
+        function generateMisc(){
+          var misc=filterGenre("Misc", vgDataByGenre);
+          var heightMax=d3.max(d3.values(misc).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(misc).map(function(d){
+            return d.value;
+          }));
+          var publishers=misc.map(function(d){return d.key});
+          var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
+
+          misc.forEach(function(publisher){
+            svg.append("rect")
+              .attr("x", publisherScale(publisher.key))
+              .attr("y", heightScale(publisher.value))
+              .attr("width", "50")
+              .attr("height", height-heightScale(publisher.value))
+              .style("fill", "blue");
+          });
+        }; //function generateMisc
+
+        function generateSimulation(){
+          var simulation=filterGenre("Simulation", vgDataByGenre);
+          var heightMax=d3.max(d3.values(simulation).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(simulation).map(function(d){
+            return d.value;
+          }));
+          var publishers=simulation.map(function(d){return d.key});
+          var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
+
+          simulation.forEach(function(publisher){
+            svg.append("rect")
+              .attr("x", publisherScale(publisher.key))
+              .attr("y", heightScale(publisher.value))
+              .attr("width", "50")
+              .attr("height", height-heightScale(publisher.value))
+              .style("fill", "blue");
+          });
+        }; //function generateSimulation
+
+        function generateStrategy(){
+          var strategy=filterGenre("Strategy", vgDataByGenre);
+          var heightMax=d3.max(d3.values(strategy).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(strategy).map(function(d){
+            return d.value;
+          }));
+          var publishers=strategy.map(function(d){return d.key});
+          var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
+
+          strategy.forEach(function(publisher){
+            svg.append("rect")
+              .attr("x", publisherScale(publisher.key))
+              .attr("y", heightScale(publisher.value))
+              .attr("width", "50")
+              .attr("height", height-heightScale(publisher.value))
+              .style("fill", "blue");
+          });
+        }; //function generateSimulation
+
+        function generateSports(){
+          var sports=filterGenre("Sports", vgDataByGenre);
+          var heightMax=d3.max(d3.values(sports).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(sports).map(function(d){
+            return d.value;
+          }));
+          var publishers=sports.map(function(d){return d.key});
+          var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
+
+          sports.forEach(function(publisher){
+            svg.append("rect")
+              .attr("x", publisherScale(publisher.key))
+              .attr("y", heightScale(publisher.value))
+              .attr("width", "50")
+              .attr("height", height-heightScale(publisher.value))
+              .style("fill", "blue");
+          });
+        }; //function generateSports
 
         function generateAdventure(){
           var adventure=filterGenre("Adventure", vgDataByGenre);
-          var heightMax=d3.max(d3.values(adventure))["value"];
+          var heightMax=d3.max(d3.values(adventure).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(adventure).map(function(d){
+            return d.value;
+          }));
           var publishers=adventure.map(function(d){return d.key});
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           adventure.forEach(function(publisher){
             svg.append("rect")
@@ -174,10 +287,15 @@
 
         function generateFighting(){
           var fighting=filterGenre("Fighting", vgDataByGenre)
-          var heightMax=d3.max(d3.values(fighting))["value"]
+          var heightMax=d3.max(d3.values(fighting).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(fighting).map(function(d){
+            return d.value;
+          }));
           var publishers=fighting.map(function(d){return d.key})
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           fighting.forEach(function(publisher){
             svg.append("rect")
@@ -193,10 +311,15 @@
 
         function generatePlatform(){
           var platform=filterGenre("Platform", vgDataByGenre);
-          var heightMax=d3.max(d3.values(platform))["value"];
+          var heightMax=d3.max(d3.values(platform).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(platform).map(function(d){
+            return d.value;
+          }));
           var publishers=platform.map(function(d){return d.key});
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           platform.forEach(function(publisher){
             svg.append("rect")
@@ -213,8 +336,11 @@
                 if (heightScale(publisher.value)+20<500){
                   return 20;
                 }
+                else if (500-heightScale(publisher.value)<=0){      // this is necessary so that the log scaling + stroke width shows something on the graph
+                  return 3;
+                }
                 else {
-                  return Number(500-heightScale(publisher.value));
+                  return 500-heightScale(publisher.value);
                 };
               })
               .style("fill", "#008400")
@@ -243,8 +369,11 @@
                 if (heightScale(publisher.value)+20<500){
                   return 18;
                 }
+                else if (500-heightScale(publisher.value) <= 0){
+                  return 1;
+                }
                 else {
-                  return Number(500-heightScale(publisher.value)-2);
+                  return 500-heightScale(publisher.value)-2
                 };
               })
               .style("fill", "#006A00");
@@ -258,7 +387,7 @@
                   return height-heightScale(publisher.value)-21;
                 }
                 else {
-                return 0;
+                  return 0;
                 };
               })
               .style("fill", "#006A00");
@@ -271,8 +400,11 @@
                 if (heightScale(publisher.value)+20<500){
                   return 18;
                 }
+                else if (500-heightScale(publisher.value) <= 0){
+                  return 1;
+                }
                 else {
-                  return Number(500-heightScale(publisher.value)-2);
+                  return 500-heightScale(publisher.value)-2
                 };
               })
               .style("fill", "#006A00");
@@ -299,8 +431,11 @@
                 if (heightScale(publisher.value)+20<500){
                   return 18;
                 }
+                else if (500-heightScale(publisher.value) <= 0){
+                  return 1;
+                }
                 else {
-                  return Number(500-heightScale(publisher.value)-2);
+                  return 500-heightScale(publisher.value)-2
                 };
               })
               .style("fill", "#006A00");
@@ -316,11 +451,16 @@
         };  //function genreplatform
 
         function generatePuzzle(){
-          var puzzle=filterGenre("Platform", vgDataByGenre);
-          var heightMax=d3.max(d3.values(puzzle))["value"];
+          var puzzle=filterGenre("Puzzle", vgDataByGenre);
+          var heightMax=d3.max(d3.values(puzzle).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(puzzle).map(function(d){
+            return d.value;
+          }));
           var publishers=puzzle.map(function(d){return d.key});
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           puzzle.forEach(function(publisher){
             svg.append("rect")
@@ -335,10 +475,15 @@
 
         function generateRacing(){
           var racing=filterGenre("Racing", vgDataByGenre);
-          var heightMax=d3.max(d3.values(racing))["value"];
+          var heightMax=d3.max(d3.values(racing).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(racing).map(function(d){
+            return d.value;
+          }));
           var publishers=racing.map(function(d){return d.key});
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           racing.forEach(function(publisher){
             svg.append("rect")
@@ -353,10 +498,15 @@
 
         function generateRolePlaying(){
           var roleplaying=filterGenre("Role-Playing", vgDataByGenre);
-          var heightMax=d3.max(d3.values(roleplaying))["value"];
+          var heightMax=d3.max(d3.values(roleplaying).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(roleplaying).map(function(d){
+            return d.value;
+          }));
           var publishers=roleplaying.map(function(d){return d.key});
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           roleplaying.forEach(function(publisher){
             svg.append("rect")
@@ -371,10 +521,15 @@
 
         function generateShooter(){
           var shooter=filterGenre("Shooter", vgDataByGenre);
-          var heightMax=d3.max(d3.values(shooter))["value"];
+          var heightMax=d3.max(d3.values(shooter).map(function(d){
+            return d.value;
+          }));
+          var heightMin=d3.min(d3.values(shooter).map(function(d){
+            return d.value;
+          }));
           var publishers=shooter.map(function(d){return d.key});
           var publisherScale = d3.scaleBand().domain(publishers).range([0,width]).padding(50);
-          var heightScale = d3.scaleLinear().domain([0, heightMax]).range([height,padding]);
+          var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           shooter.forEach(function(publisher){
             svg.append("rect")
