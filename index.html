@@ -486,14 +486,145 @@
           var heightScale = d3.scaleLog().domain([heightMin, heightMax]).range([height,padding]);
 
           racing.forEach(function(publisher){
-            svg.append("rect")
-              .attr("x", publisherScale(publisher.key))
-              .attr("y", heightScale(publisher.value))
-              .attr("width", "50")
-              .attr("height", height-heightScale(publisher.value))
-              .attr("transform", "translate(0,0)")
-              .style("fill", "blue");
+            makeCar(publisherScale(publisher.key), heightScale(publisher.value), colorScale(publisher.key), "gray");
+            svg.append("line")
+              .attr("x1", publisherScale(publisher.key)-25)
+              .attr("x2", publisherScale(publisher.key)-25)
+              .attr("y1", 0)
+              .attr("y2", height)
+              .style("stroke", "white")
+              .style("stroke-dasharray", "10, 25");
           });
+          svg.append("line")
+            .attr("x1", racing.length*75+25)
+            .attr("x2", racing.length*75+25)
+            .attr("y1", 0)
+            .attr("y2", height)
+            .style("stroke", "white")
+            .style("stroke-dasharray", "10, 25");
+
+          function makeCar(x, y, color, outlineColor = "white", windowColor = "aqua"){
+            // Body
+            var paddedHeight = height + 50;
+            var g = svg.append("g")
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", color)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(7+x)+" "+String(1+paddedHeight)+" h 10 l 1 1 h 1 l 2 2 v 1 l -2 -2 h -1 l -1 -1 h -12 l -2 2 v 1 l 2 -2 h 1 l 1 -1 h -1 z");
+            g.append("rect")
+              .style("fill", color)
+              .attr("x", x+2)
+              .attr("y", paddedHeight+4)
+              .attr("height", 9)
+              .attr("width", 20);
+            g.append("rect")
+              .style("fill", color)
+              .attr("x", x+7)
+              .attr("y", paddedHeight+3)
+              .attr("height", 4)
+              .attr("width", 10);
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", color)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(2+x)+" "+String(13+paddedHeight)+" h 6 m-2 0 l -1 1 h -3 m17 0 h 2 v -1 h -5 m2 0 l 1 1");
+            g.append("rect")
+              .style("fill", color)
+              .attr("x", x+2)
+              .attr("y", paddedHeight+20)
+              .attr("height", 22)
+              .attr("width", 20);
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", color)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(2+x)+" "+String(42+paddedHeight)+" h 20 h -1 l -1 1 h -16 l 1 1 h 15");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", color)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(0+x)+" "+String(19+paddedHeight)+" h 3 m18 0 h 3");
+
+            // Windows
+            g.append("rect")
+              .style("fill", windowColor)
+              .attr("x", x + 9)
+              .attr("y", paddedHeight + 13)
+              .attr("height", 5)
+              .attr("width", 6);
+            g.append("rect")
+              .style("fill", windowColor)
+              .attr("x", x + 6)
+              .attr("y", paddedHeight + 14)
+              .attr("height", 5)
+              .attr("width", 12);
+            g.append("rect")
+              .style("fill", windowColor)
+              .attr("x", x + 3)
+              .attr("y", paddedHeight + 15)
+              .attr("height", 4)
+              .attr("width", 18);
+            g.append("rect")
+              .style("fill", windowColor)
+              .attr("x", x + 4)
+              .attr("y", paddedHeight + 18)
+              .attr("height", 2)
+              .attr("width", 16);
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", windowColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(5+x)+" "+String(21+paddedHeight)+" v -1 h 3 m8 0 h 3 v 1");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", windowColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(3+x)+" "+String(19+paddedHeight)+" v 15 m0 -10 h 1 v -2 l -1 -1");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", windowColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(21+x)+" "+String(19+paddedHeight)+" v 15 m0 -10 h -1 v -2 l 1 -1");
+
+            //Car Outline
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", outlineColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(7+x)+" "+String(paddedHeight)+" h 10 l 1 1 h 1 l 3 3 v 14 h 1 l 1 1 l -1 1 h -1 v 22 l -2 2 h -16 l -2 -2 v -22 h -1 l -1 -1 l 1 -1 h 1 v -14 l 3 -3 h 1 z");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", outlineColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(2+x)+" "+String(6+paddedHeight)+" h 1 l 2 -2 h 1 l 1 -1 h 10 l 1 1 h 1 l 2 2 h 1");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", outlineColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(3+x)+" "+String(15+paddedHeight)+" h 2 l 1 -1 h 2 l 1 -1 h 6 l 1 1 h 2 l 1 1 h 2 v 4 h -1 v 2 l -1 1 l -1 -1 h -2 l -1 -1 h -6 l -1 1 h -2 l -1 1 l -1 -1 v -2 h -1 v -4 z");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", outlineColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(5+x)+" "+String(22+paddedHeight)+" v 2 l -1 1 v 8 l 1 1 v 3 h 3 l 1 1 h 6 l 1 -1 h 3 v -3 l 1 -1 v -8 l -1 -1 v -2");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", outlineColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(2+x)+" "+String(27+paddedHeight)+" h 2 m16 0 h 2 M"+String(2+x)+" "+String(34+paddedHeight)+" h 1 l 1 -1 m16 0 l 1 1 h 1");
+            g.append("path")
+              .style("fill", "none")
+              .style("stroke", outlineColor)
+              .style("stroke-width", "1")
+              .attr("d", "M"+String(5+x)+" "+String(37+paddedHeight)+" h -1 v 5 l -1 1 l 1 -1 l 1 1 v 1 m14 0 v -1 l 1 -1 l 1 1 l -1 -1 v -5 h -1");
+
+            g.transition()
+              .duration(1500)
+              .attr("transform", "translate(0, -"+String(paddedHeight-y)+")");
+          };
+
+
         };  //function racing
 
         function generateRolePlaying(){
